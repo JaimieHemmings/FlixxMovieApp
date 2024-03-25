@@ -206,7 +206,7 @@ function init() {
             displayPopularMovies();
             break;
         case '/shows.html':
-        case 'shows':
+        case '/shows':
             displayPopularTV();
             break;
         case '/movie-details.html':
