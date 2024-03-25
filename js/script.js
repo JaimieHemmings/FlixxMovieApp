@@ -78,6 +78,10 @@ async function displayMovieDetails() {
 
     const movie = await fetchAPIData(`movie/${movieId}`);
 
+    //Overlay for BG Image
+    displayBackgroundImage('movie', movie.backdrop_path);
+    console.log(movie.backdrop_path);
+
     const div = document.createElement('div');
     div.innerHTML = `<div class="details-top">
     <div>
@@ -135,6 +139,28 @@ async function displayMovieDetails() {
   document.querySelector('#movie-details').appendChild(div);
 }
 
+//Display backdrop
+function displayBackgroundImage(type, backgroundPath) {
+    const overlayDiv = document.createElement('div');
+    overlayDiv.style.backgroundImage = `url(https://image.tmdb.org/t/p/original${backgroundPath})`;
+    overlayDiv.style.backgroundSize = 'cover';
+    overlayDiv.style.backgroundPosition = 'center';
+    overlayDiv.style.backgroundRepeat = 'no-repeat';
+    overlayDiv.style.height = '100vh';
+    overlayDiv.style.width = '100vw';
+    overlayDiv.style.position = "fixed";
+    overlayDiv.style.top = "0";
+    overlayDiv.style.left = "0";
+    overlayDiv.style.opacity = "0.1";
+    overlayDiv.style.zIndex = "-1"; 
+
+    if (type === "movie") {
+        document.querySelector("#movie-details").appendChild(overlayDiv);
+    } else {
+        document.querySelector("#show-details").appendChild(overlayDiv);
+    }
+}
+
 //Fetch data from TMDB API
 async function fetchAPIData(endpoint) {
     const API_KEY = 'ca79d3cdddf9409a904454c91958a9cb';
@@ -180,14 +206,18 @@ function init() {
             displayPopularMovies();
             break;
         case '/shows.html':
+        case 'shows':
             displayPopularTV();
             break;
         case '/movie-details.html':
+        case '/movie-details':
             displayMovieDetails();
             break;
+        case '/tv-details':
         case '/tv-details.html':
             console.log('TV Details');
             break;
+        case '/search':
         case '/search.html':
             console.log('Search');
             break;
